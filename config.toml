@@ -1,0 +1,32 @@
+
+#Configuration file for kindle-input
+
+[Network]
+
+ip_address_wifi = "0.0.0.0"
+
+# The usb address should be left like this unless you changed it in usbnetLite config
+ip_address_usb = "192.168.15.244"
+port = 22
+
+[Auth]
+
+# These are the default for usbnetLite, so don't change this unless you change the password in the kindle
+ssh_user = "root"
+ssh_password = "kindle"
+
+[Tablet_calibration]
+
+# The max value is the maximum value that axis can physically register.
+#This is for the Kindle Scribe 2022, but i think it will be the same in the others?
+x_max = 20720
+y_max = 15720
+
+# Area is in percentage, so if you put 50 and 50 the usable area on the kindle will
+#be reduced to half in both axis, the value doesn't need to be the same for both axis
+x_axis_area = 30
+y_axis_area = 20
+
+# This is because the baseline for the pressure sensor is too low in my opinion,
+#in general this will be added to the base value. 400 is the raccomended value
+pen_compensation = 400

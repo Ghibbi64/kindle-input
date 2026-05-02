@@ -21,6 +21,7 @@ void handle(ssh::Channel* channel) {
     toml::table config;
     getConfig(config);
     int pen_compensation = config["Tablet_calibration"]["pen_compensation"].value_or(400);
+    bool pen_override = config["Tablet_calibration"]["pen_override"].value_or(false);
 
     int uinputid = setup_uinput_device(); // This register the virtual tablet
 
@@ -98,6 +99,12 @@ void handle(ssh::Channel* channel) {
             else if(ev_type == EV_ABS){
                 uint16_t mapped_code = ev_code;
                 uint16_t mapped_value = ev_value;
+
+                //If pen_override is true the pressure will always be 0
+                if(pen_override && ev_code == ABS_PRESSURE){
+                    mapped_value = 0;
+                }
+
                 //Little fix because the base pressure it too small in my opinion (this can be set in the config)
                 if(ev_code == ABS_PRESSURE){
                     if(mapped_value>20) mapped_value+=pen_compensation;

@@ -1,5 +1,5 @@
 # kindle-input 
-## A Tool to use your Kindle Scribe as a graphics tablet!
+## A Tool to use your Kindle Scribe as a graphics tablet! (for now Linux only)
 This tool is based on 2 app, the desktop server and the kindle client, and you need both to run this.
 ### Installation guide
 1. Download the zip from [release](https://github.com/Ghibbi64/kindle-input/releases).

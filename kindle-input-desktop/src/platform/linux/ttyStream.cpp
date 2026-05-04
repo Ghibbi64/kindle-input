@@ -7,7 +7,7 @@ int open_ttyStream(){
     int tty_fd = open("/dev/ttyACM0", O_RDONLY | O_NOCTTY);
     if (tty_fd < 0) {
         std::cout<<"Failed to open /dev/ttyACM0\n";
-        std::cout<<"Try disconnecting the kindle, pressing 'end' and 'start' on the kindle and reconnecting it\n";
+        std::cout<<"Are you sure the kindle is connected via USB and it's in the correct mode?\n";
         return -1;
     }
     struct termios tty;

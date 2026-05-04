@@ -12,10 +12,10 @@ input_mode = "tablet"
 x_max = 20720
 y_max = 15720
 
-# Area is in percentage, so if you put 50 and 50 the usable area on the kindle will
-#be reduced to half in both axis, the value doesn't need to be the same for both axis
-x_axis_area = 25
-y_axis_area = 20
+# Area is in percentage, so if you put 50 and 50 the drawable are on kindle screen will be reduced by
+# half in both axis. It will always be in the center of the screen. Max value 100
+x_axis_area = 30
+y_axis_area = 25
 
 # This is because the baseline for the pressure sensor is too low in my opinion,
 #in general this will be added to the base value. 400 is the raccomended value
@@ -23,6 +23,9 @@ pen_compensation = 400
 
 # If set to true the pen will never register touch (useful for rythm games)
 pen_override = false
+
+
+
 
 # -------------------------------------------------------------------------
 # This part is from the old version, i'm planning to put support for ssh only in "wifi" mode in the future

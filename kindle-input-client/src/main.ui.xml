@@ -1,0 +1,89 @@
+<interface>
+  <object id="window" class="GtkWindow">
+    <property
+            name="title"
+        >L:A_N:application_ID:org.kindlemodding.template-kindle-gtk_PC:N</property>
+    <property name="default-width">840</property>
+    <property name="default-height">632</property>
+    <property name="border_width">0</property>
+    <property name="window_position">center</property>
+
+    <child>
+      <object class="GtkHBox" id="wrapper_box">
+        <property name="visible">True</property>
+
+        <child>
+          <object class="GtkVBox" id="vbox_top_buttons">
+            <property name="visible">True</property>
+            <property name="border_width">5</property>
+
+            <child>
+              <object class="GtkButton" id="end_button">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label_end">
+                    <property name="visible">True</property>
+                    <property name="label">Switch back to MTP</property>
+                    <property name="angle">90</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="title_button_left">
+                <property name="visible">True</property>
+                <property name="relief">none</property>
+                <child>
+                  <object class="GtkLabel" id="label_quit">
+                    <property name="visible">True</property>
+                    <property name="label">Quit</property>
+                    <property name="angle">90</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="start_button">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label_start">
+                    <property name="visible">True</property>
+                    <property name="label">Enable tablet mode</property>
+                    <property name="angle">90</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+
+      </object>
+    </child>
+  </object>
+</interface>

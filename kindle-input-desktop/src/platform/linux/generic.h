@@ -4,8 +4,6 @@
 
 #pragma once
 
-// DECLARATION ONLY.
-// Do NOT add "= false" here. Do not remove the 'extern' keyword.
 extern bool close_program;
 
 void signalHandler(int sig);

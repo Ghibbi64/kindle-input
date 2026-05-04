@@ -1,3 +1,2 @@
-#include <libssh/libsshpp.hpp>
 
-void handle(ssh::Channel* channel);
+void handle(int tty_fd);

@@ -1,32 +1,37 @@
 #include <iostream>
 #include <thread>
-#include "platform/linux/connection.h"
+#include "platform/linux/sshConnect.h"
 #include "platform/linux/injector.h"
 #include "input/handler.h"
 #include "dependencies/tomlParser.h"
+#include "platform/linux/ttyStream.h"
+#include "platform/linux/generic.h"
 
 int main(){
-    //Get config.toml
-    toml::table config;
+    signal(SIGINT, signalHandler);
+
+   toml::table config;
     getConfig(config);
-    std::string ip = config["Network"]["ip_address_usb"].value_or("192.168.15.244"); // For now i'm connecting trough the usb
-    int port = config["Network"]["ip_address_usb"].value_or(22);
-    std::string ssh_user = config["Auth"]["ssh_user"].value_or("root");
-    std::string ssh_password = config["Auth"]["ssh_password"].value_or("kindle");
+    std::string input_mode = config["Tablet_calibration"]["input_mode"].value_or("tablet");
+    // Default tablet even if mode is incorrect
+    if(input_mode == "mouse")
+        switch_input_mode(1);
+    else
+        switch_input_mode(0);
+    // Open the tty stream
+    int tty_fd = open_ttyStream();
+    if(tty_fd!=-1){
+        std::thread t1(handle, tty_fd);
 
-    ssh::Session ssh_session;
-    //Establish connection with the kindle and get the channel
-    ssh::Channel* stream_channel = ssh_connect(ssh_session, ip, port, "root", "kindle");
-    if(stream_channel==nullptr){
-        std::cout<<"Unable to connect with the Kindle\n";
-        delete stream_channel;
-        return -1;
+        while(!close_program){}
+        pthread_cancel(t1.native_handle());
+        t1.join();
+        std::cout<<"Closing tty stream...\n";
+        close_ttyStream(tty_fd);
+        std::cout<<"Destroying virtual tablet...\n";
+        switch(destroy_device()){
+            case -1: std::cout<<"Error while destroying the virtual tablet\n"; break;
+            case -2: std::cout<<"Virtual tablet not found\n"; break;
+        }
     }
-    //Read the raw data stream and continue from there
-    std::thread t1(handle, stream_channel);
-
-    //Closing process
-    t1.join();
-    if(destroy_device()==-1) std::cout<<"Error while destroying the virtual tablet...\n";
-    delete stream_channel;
 }

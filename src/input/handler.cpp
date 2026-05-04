@@ -1,12 +1,15 @@
 #include <iostream>
 #include <cstring>
 #include <cstdint>
-#include <libssh/libsshpp.hpp>
+#include <unistd.h>
+#include <cerrno>
 #include "handler.h"
 #include "../platform/linux/injector.h"
 #include "../dependencies/tomlParser.h"
+#include "../platform/linux/ttyStream.h"
+#include "../platform/linux/generic.h"
 
-// Linux Input Event Constants
+// Linux (for decoding kindle events) Input Event Constants
 const uint16_t EV_SYN = 0x00;
 const uint16_t EV_KEY = 0x01;
 const uint16_t EV_ABS = 0x03;
@@ -17,7 +20,7 @@ const uint16_t ABS_PRESSURE = 0x18;
 const uint16_t ABS_DISTANCE = 0x19;
 const uint16_t BTN_TOUCH = 0x14a;
 
-void handle(ssh::Channel* channel) {
+void handle(int tty_fd){
     toml::table config;
     getConfig(config);
     int pen_compensation = config["Tablet_calibration"]["pen_compensation"].value_or(400);
@@ -33,22 +36,20 @@ void handle(ssh::Channel* channel) {
 
     std::cout<<"Starting receiving data\n";
 
-    while (true) {
+    while (!close_program) {
         // Every event is 16 bytes
         int bytes_to_read = 16 - total_bytes_read;
-        int bytes_read = channel->read(buffer + total_bytes_read, bytes_to_read, 0);
+        ssize_t bytes_read = read(tty_fd, buffer + total_bytes_read, bytes_to_read);
 
-        // libssh is fucking hell, "oh yea i didn't receive the fucking packet in 0.000000001 ms, i will surely fuck up everything" -_-
-        if (bytes_read == SSH_AGAIN || bytes_read == -2) {
-            continue;
-        }
         if (bytes_read < 0) {
-            ssh_session c_session = ssh_channel_get_session(channel->getCChannel());
-            std::cerr << "\nSSH error: " << ssh_get_error(c_session) <<"\n";
+                if (errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR) {
+                continue;
+            }
+            std::cerr << "\nTTY read error: " << std::strerror(errno) << "\n";
             return;
         }
         if (bytes_read == 0) {
-            std::cout << "\nStream ended. Connection closed by Kindle.\n";
+            std::cout << "\nStream ended. Device disconnected.\n";
             return;
         }
         total_bytes_read += bytes_read;
@@ -85,6 +86,7 @@ void handle(ssh::Channel* channel) {
 
             if (ev_type == EV_KEY && ev_code == BTN_TOUCH) {
                 inject_event(uinputid, EV_KEY, BTN_TOUCH, ev_value);
+                if(!pen_override) inject_event(uinputid, EV_KEY, 0x110, ev_value);
             }
             else if (ev_type == EV_KEY && ev_code == 0x140) { // 0x140 is BTN_TOOL_PEN
                 tool_proximity = (ev_value == 1);

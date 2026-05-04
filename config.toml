@@ -1,5 +1,31 @@
-
 #Configuration file for kindle-input
+
+[Tablet_calibration]
+
+# It's the type of input device the OS sees, 2 possible values:
+# tablet (will behave like a graphics tablet) - mouse (will behave more like a mouse pointer)
+# mouse is treated better by wayland but it loses pressure gradient, so it's better to use tablet mode if possible
+input_mode = "tablet"
+
+# The max value is the maximum value that axis can physically register.
+#This is for the Kindle Scribe 2022, but i think it will be the same in the others?
+x_max = 20720
+y_max = 15720
+
+# Area is in percentage, so if you put 50 and 50 the usable area on the kindle will
+#be reduced to half in both axis, the value doesn't need to be the same for both axis
+x_axis_area = 25
+y_axis_area = 20
+
+# This is because the baseline for the pressure sensor is too low in my opinion,
+#in general this will be added to the base value. 400 is the raccomended value
+pen_compensation = 400
+
+# If set to true the pen will never register touch (useful for rythm games)
+pen_override = false
+
+# -------------------------------------------------------------------------
+# This part is from the old version, i'm planning to put support for ssh only in "wifi" mode in the future
 
 [Network]
 
@@ -15,22 +41,3 @@ port = 22
 # These are the default for usbnetLite, so don't change this unless you change the password in the kindle
 ssh_user = "root"
 ssh_password = "kindle"
-
-[Tablet_calibration]
-
-# The max value is the maximum value that axis can physically register.
-#This is for the Kindle Scribe 2022, but i think it will be the same in the others?
-x_max = 20720
-y_max = 15720
-
-# Area is in percentage, so if you put 50 and 50 the usable area on the kindle will
-#be reduced to half in both axis, the value doesn't need to be the same for both axis
-x_axis_area = 100
-y_axis_area = 100
-
-# This is because the baseline for the pressure sensor is too low in my opinion,
-#in general this will be added to the base value. 400 is the raccomended value
-pen_compensation = 400
-
-# If set to true the pen will never register touch (useful for rythm games)
-pen_override = false

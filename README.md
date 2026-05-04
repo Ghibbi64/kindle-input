@@ -3,7 +3,7 @@
 This tool is based on 2 app, the desktop server and the kindle client, and you need both to run this.
 ### Installation guide
 1. Download the zip from [release](https://github.com/Ghibbi64/kindle-input/releases).
-2. Extract the folder "kindle-input-desktop" whenever you want.
+2. Extract the folder "kindle-input-desktop" wherever you want.
 3. Open the storage of your kindle and copy the folder "extensions" in the root (the real folder path is /mnt/us).
 Done
 ### How to use it

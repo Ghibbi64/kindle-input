@@ -12,7 +12,7 @@ First take a good look at the config file of the desktop app.<br>
 Then open the app on the kindle trough KUAL, and select "Enable tablet mode", now connect the USB to the pc.<br>
 Now you can open the desktop app in your terminal!<br>
 To close the app use CTRL+C.
-### First boot setup
+### First time setup
 The programs will read the tty stream in /dev/ttyACM0, and it usually need sudo for this, so you have 2 choise:
 - After connecting the kindle to the pc via usb while in "tablet mode", run in your terminal:
 ```

@@ -7,6 +7,7 @@ This tool is based on 2 app, the desktop server and the kindle client, and you n
 3. Open the storage of your kindle and copy the folder "extensions" in the root (the real folder path is /mnt/us).
 Done
 ### How to use it
+(Obviously you need a jailbroken kindle)<br>
 Be sure to not use this when another kindle app is using the usb (es: usbnetlite)<br><br>
 First take a good look at the config file of the desktop app.<br>
 Then open the app on the kindle trough KUAL, and select "Enable tablet mode", now connect the USB to the pc.<br>

@@ -7,10 +7,18 @@ This tool is based on 2 app, the desktop server and the kindle client, and you n
 3. Open the storage of your kindle and copy the folder "extensions" in the root (the real folder path is /mnt/us).
 Done
 ### How to use it
-**! Be sure to not have any other serial-tty device connected to your pc !**<br>
 First take a good look at the config file of the desktop app.<br>
-Then open the app on the kindle trough KUAL, and select "Enable tablet mode", now you can connect the usb to your pc and open the desktop app in your terminal.<br>
-After finishing use CTRL+C to close the app.
+Then open the app on the kindle trough KUAL, and select "Enable tablet mode", now connect the USB to the pc.<br>
+Now you can open the desktop app in your terminal!<br>
+To close the app use CTRL+C.
+### First boot setup
+The programs will read the tty stream in /dev/ttyACM0, and it usually need sudo for this, so you have 2 choise:
+- After connecting the kindle to the pc via usb while in "tablet mode", run in your terminal:
+```
+sudo usermod -aG $(stat -c '%G' /dev/ttyACM0) $USER
+```
+and reboot your system (this will add your user to the group that owns /dev/ttyACM0, so you can use the script without sudo).
+- Just run the script with sudo.
 #### Little troubleshooting - known problems
 - If the desktop app doesn't see the kindle, just press again on "Enable tablet mode".
 - If you disconnect the USB while the program is running, you need to press again "Enable tablet mode" to turn on the data stream again, if you want to continue using it. 

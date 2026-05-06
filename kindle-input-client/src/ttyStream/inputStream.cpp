@@ -7,7 +7,7 @@
 #include <poll.h>
 #include <termios.h>
 #include <cerrno>
-#include "manage.h"
+#include "inputStream.h"
 
 void stream_input_to_serial() {
     int fd_out = -1;

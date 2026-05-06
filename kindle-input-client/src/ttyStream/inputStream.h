@@ -1,4 +1,3 @@
-#include <iostream>
 #include <thread>
 #include <atomic>
 #include <fcntl.h>
@@ -6,7 +5,6 @@
 #include <linux/input.h>
 #include <poll.h>
 #include <termios.h>
-#include <cerrno>
 
 inline std::atomic<bool> keep_streaming{false};
 inline std::thread stream_thread;

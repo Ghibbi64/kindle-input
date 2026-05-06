@@ -7,46 +7,11 @@
 #include <poll.h>
 #include <termios.h>
 #include "main.ui.xml.h"
-#include "ttyStream/manage.h"
+#include "ttyStream/inputStream.h"
 #include "ttyStream/setupUsb.h"
-
-
-void on_button_quit()
-{
-  g_print("Quit button clicked, restoring USB and exiting...\n");
-  stop_and_restore();
-  usbmode_mtp();
-  gtk_main_quit();
-}
-
-void on_start_button_clicked()
-{
-    //If thread already exist
-    if (stream_thread.joinable()) {
-        keep_streaming = false;
-        stream_thread.join();
-    }
-
-    usbmode_serial();
-
-    // Start the stream
-    keep_streaming = true;
-    stream_thread = std::thread(stream_input_to_serial);
-}
-
-void on_end_button_clicked()
-{
-    stop_and_restore();
-    usbmode_mtp();
-}
-
-// While quitting
-void on_window_destroy()
-{
-    stop_and_restore();
-    usbmode_mtp();
-    gtk_main_quit();
-}
+#include "ui/drawArea.h"
+#include "ui/controls.h"
+#include "ttyStream/commands.h"
 
 GtkBuilder *gtk_builder_new_from_embedded_file(const char *data, size_t size)
 {
@@ -64,6 +29,7 @@ GtkBuilder *gtk_builder_new_from_embedded_file(const char *data, size_t size)
 
 int main(int argc, char *argv[])
 {
+  system("eips -c; eips -f"); //Refresh the entire screen before loading the ui, idk why the ghosting still persist tough
   gtk_init(&argc, &argv);
 
   GtkBuilder *builder = gtk_builder_new_from_embedded_file(reinterpret_cast<const char *>(MAIN_UI_XML), MAIN_UI_XML_LEN);
@@ -73,6 +39,10 @@ int main(int argc, char *argv[])
     return 1;
   }
   gtk_builder_connect_signals(builder, NULL);
+
+  //Drawing area zone
+  init_drawing_area(builder);
+  update_drawing_area_dimensions(0.25, 0.20);
 
   GtkWidget *window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
   GtkWidget *button_quit = GTK_WIDGET(gtk_builder_get_object(builder, "title_button_left"));

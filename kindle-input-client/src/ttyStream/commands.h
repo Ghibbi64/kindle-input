@@ -6,5 +6,7 @@
 #include <poll.h>
 #include <termios.h>
 
-inline std::atomic<bool> keep_running{false};
+inline std::atomic<bool> close_connection{false};
 inline std::thread command_thread;
+
+void manage_commands();

@@ -3,7 +3,6 @@
 #include "drawArea.h"
 #include "../ttyStream/inputStream.h"
 #include "../ttyStream/setupUsb.h"
-#include "../ttyStream/commands.h"
 
 void on_button_quit()
 {

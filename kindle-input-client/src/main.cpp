@@ -11,7 +11,6 @@
 #include "ttyStream/setupUsb.h"
 #include "ui/drawArea.h"
 #include "ui/controls.h"
-#include "ttyStream/commands.h"
 
 GtkBuilder *gtk_builder_new_from_embedded_file(const char *data, size_t size)
 {
